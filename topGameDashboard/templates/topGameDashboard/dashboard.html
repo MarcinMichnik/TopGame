@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Witaj, {{ user.username|default:'Guest' }}!</h3>
+{% if user.is_authenticated %}
+
+<div>    
+    <p>Test content</p>
+</div>
+{% endif %}
+{% endblock %}
