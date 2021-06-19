@@ -8,19 +8,14 @@
 </style>
 
 <div>
-    <!-- <a href="{% url 'dashboard' %}">Strona główna</a>
+    <a href="{% url 'dashboard' %}">Homepage</a>
     {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-            <a href="{% url 'users' %}">Lista użytkowników</a>
-        {%  endif%}
-        <a href="{% url 'books' %}">Książki</a>
-        <a href="{% url 'movies' %}">Filmy</a>
-        <a href="{% url 'cds' %}">Płyty</a>
+        <a href="{% url 'madhex-play' %}">Madhex</a>
         <a href="{% url 'logout' %}">Logout</a>
         <a href="{% url 'password_change' %}">Change password</a>
     {% else %}
         <a href="{% url 'login' %}">Login</a>
-    {% endif %} -->
+    {% endif %}
 </div>
 
 <h1>TopGame</h1>
