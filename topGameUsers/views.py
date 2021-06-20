@@ -16,19 +16,20 @@ from django.views.generic import (TemplateView,
                                        DeleteView)
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm
 
 def register(request):
-    if request.method == "GET":
+    if request.method == 'GET':
         return render(
-            request, "topGameUsers/register.html",
-            {"form": CustomUserCreationForm}
+            request, 'topGameUsers/register.html',
+            {'form': CustomUserCreationForm}
         )
-    elif request.method == "POST":
+    elif request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect(reverse("dashboard"))
+            return redirect(reverse('dashboard'))
         
 @login_required
 def profile(request):

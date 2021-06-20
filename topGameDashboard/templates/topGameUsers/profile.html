@@ -1,5 +1,31 @@
-{% extends 'base.html' %}
-
+{% extends "memopolis/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
-<h1>Profile</h1>
-{% endblock %}
+<div class="content-section" id="profile">
+  <div class="media">
+    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+    <div class="media-body">
+      <div class="limiter">
+        <h1 class="account-heading font-weight-bold">{{ user.username }}</h1>
+      </div>
+      <div>
+        <p class="text-secondary">{{ user.email }}</p>
+      </div>
+
+    </div>
+  </div>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Zaktualizuj profil</legend>
+      {{ u_form|crispy }}
+      {{ p_form|crispy }}
+    </fieldset>
+    <div class="form-group d-flex justify-content-center">
+      <button class="btn btn-outline-primary" type="submit">Zaktualizuj</button>
+    </div>
+  </form>
+</div>
+<script type="text/javascript" src="{% static 'memopolis/translate.js' %}"></script>
+{% endblock content %}

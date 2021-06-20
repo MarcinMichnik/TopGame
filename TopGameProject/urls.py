@@ -19,7 +19,7 @@ from django.contrib import admin
 
 urlpatterns = [
     path("", include("topGameDashboard.urls")),
-    path("users/", include("topGameUsers.urls")),
+    path("", include("topGameUsers.urls")),
     path("madhex/", include("topGameMadhex.urls")),
     path("admin/", admin.site.urls),
 ]

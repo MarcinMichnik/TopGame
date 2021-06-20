@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
     'topGameDashboard',
     'topGameMadhex',
     'topGameUsers',
