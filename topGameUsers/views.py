@@ -18,6 +18,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
+from .models import Mana
 
 def register(request):
     if request.method == 'GET':
@@ -55,3 +56,13 @@ def profile(request):
 
 class UserStatistics(TemplateView):
     template_name = 'topGameUsers/statistics.html'
+    
+    def get(self, request, *args, **kwargs):
+        context = {}
+
+        manas = Mana.objects.all()
+        context['manas'] = manas
+        
+        #import pdb; pdb.set_trace()
+
+        return render(request, self.template_name, context)
