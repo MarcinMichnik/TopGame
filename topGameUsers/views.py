@@ -52,3 +52,6 @@ def profile(request):
     }
     
     return render(request, 'topGameUsers/profile.html', context)
+
+class UserStatistics(TemplateView):
+    template_name = 'topGameUsers/statistics.html'

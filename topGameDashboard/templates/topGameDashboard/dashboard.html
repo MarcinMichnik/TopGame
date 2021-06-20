@@ -10,7 +10,7 @@
                 <h2>Profile</h2>
             </div>
             <div>
-                <a href="{% url 'profile' %}"><img width="120" height="120"></a>
+                <a href="{% url 'profile' %}"><img src="/media/icons/login_icon.png" width="120" height="120"></a>
             </div>
         </div>
         <div class="col col-md-4 text-center">
@@ -18,10 +18,9 @@
                 <h2>Statistics</h2>
             </div>
             <div>
-                <a href=""><img width="120" height="120"></a>
+                <a href="{% url 'statistics' %}"><img src="/media/icons/pie_chart_icon.png" width="120" height="120"></a>
             </div>
         </div>
-
     </div>
     <div id="games" class="row align-items-center mt-4">
         <div class="col col-md-4 text-center">
@@ -29,7 +28,20 @@
                 <h2>Madhex</h2>
             </div>
             <div>
-                <a href="{% url 'madhex-play' %}"><img width="120" height="120"></a>
+                <a href="{% url 'madhex-play' %}"><img src="/media/icons/madhex_icon.png" width="120" height="120"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div id="utilities" class="row align-items-center mt-3">
+        <div class="col col-md-4 text-center">
+            <div>
+                <h2>Login</h2>
+            </div>
+            <div>
+                <a href="{% url 'login' %}"><img src="/media/icons/login_icon.png" width="120" height="120"></a>
             </div>
         </div>
     </div>
