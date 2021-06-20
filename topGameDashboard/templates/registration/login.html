@@ -6,7 +6,10 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Login">
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-outline-primary" type="submit" value="Login">Login</button>
+    </div>
+    
 </form>
 
 <a href="{% url 'dashboard' %}">Back to dashboard</a>
