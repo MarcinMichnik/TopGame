@@ -1,46 +1,69 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div id="container" style="width: 75%;">
-    <canvas id="chart"></canvas>
-  </div>
-  <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-  
-  <script>
-      let userManas = `{{ manas | safe }}`;
-      console.log(userManas);
+<div class="d-flex justify-content-center">
+    <div id="container" style="width: 75%;">
+        <canvas id="chart"></canvas>
+    </div>
+</div>
 
-      let keys = Object.keys(userManas);
-      console.log(keys);
+<script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-      new Chart(document.getElementById("chart"), {
-          type: 'line',
-          data: {
-              labels: keys,
-              datasets: [{
-                      label: "Like",
-                      backgroundColor: "rgb(91, 223, 91)",
-                      data: keys
-                  }
-          },
-          options: {
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }]
-              },
-              legend: {
-                  display: true
-              },
-              title: {
-                  display: true,
-                  text: 'Statystyki polubień książek'
-              }
-          }
-      });
-  </script>
+<script>
+    let userManas = {{ manas | safe }};
+    console.log(userManas);
+
+    let userManaKeys = Object.keys(userManas);
+    console.log(userManas);
+
+    let manaPowers = [];
+
+    let manaDates = [];
+
+    for (const userMana of userManaKeys) {
+        console.log(userMana);
+        manaPowers.push(userManas[userMana]["power"]);
+        let dd = JSON.parse(userManas[userMana]["date"]);
+
+        let dateObject = new Date(dd);
+
+        manaDates.push(dateObject.toLocaleString("en-US"));
+    }
+    console.log(manaPowers);
+
+    console.log(manaDates);
+
+    new Chart(document.getElementById("chart"), {
+        type: 'line',
+        data: {
+            labels: manaDates,
+            datasets: [{
+                label: "Power",
+                backgroundColor: "rgb(91, 223, 91)",
+                data: manaPowers
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time'
+                },
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            legend: {
+                display: true
+            },
+            title: {
+                display: true,
+                text: 'Mana flow'
+            }
+        }
+    });
+</script>
 
 {% endblock %}

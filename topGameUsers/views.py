@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 from .models import Mana
+from json import dumps
 
 def register(request):
     if request.method == 'GET':
@@ -59,9 +60,15 @@ class UserStatistics(TemplateView):
     
     def get(self, request, *args, **kwargs):
         context = {}
-
-        manas = Mana.objects.all()
-        context['manas'] = manas
+        mana_records = {}
+        manas = Mana.objects.filter(belongs_to=request.user)
+        for mana in manas:
+            mana_records[str(mana) + ' ' + str(mana.date_of_assignment)] = {'date':dumps(mana.date_of_assignment, default=str)
+                                                                            ,'power':mana.power}
+            
+        
+        
+        context['manas'] = mana_records
         
         #import pdb; pdb.set_trace()
 
