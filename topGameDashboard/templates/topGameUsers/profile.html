@@ -1,4 +1,4 @@
-{% extends "memopolis/base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
@@ -18,14 +18,13 @@
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Zaktualizuj profil</legend>
+      <legend class="border-bottom mb-4">Update profile</legend>
       {{ u_form|crispy }}
       {{ p_form|crispy }}
     </fieldset>
     <div class="form-group d-flex justify-content-center">
-      <button class="btn btn-outline-primary" type="submit">Zaktualizuj</button>
+      <button class="btn btn-outline-primary" type="submit">Update</button>
     </div>
   </form>
 </div>
-<script type="text/javascript" src="{% static 'memopolis/translate.js' %}"></script>
 {% endblock content %}

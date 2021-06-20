@@ -16,7 +16,8 @@ from django.views.generic import (TemplateView,
                                        DeleteView)
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm
+from django.contrib import messages
 
 def register(request):
     if request.method == 'GET':
