@@ -1,11 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Witaj, {{ user.username|default:'Guest' }}!</h3>
 {% if user.is_authenticated %}
 
-<div>    
-    <p>Test content</p>
+<div class="container">
+    <div id="utilities" class="row align-items-center mt-3">
+        <div class="col col-md-4 text-center">
+            <div>
+                <h2>Profile</h2>
+            </div>
+            <div>
+                <a href="{% url 'profile' %}"><img width="120" height="120"></a>
+            </div>
+        </div>
+        <div class="col col-md-4 text-center">
+            <div>
+                <h2>Statistics</h2>
+            </div>
+            <div>
+                <a href=""><img width="120" height="120"></a>
+            </div>
+        </div>
+
+    </div>
+    <div id="games" class="row align-items-center mt-4">
+        <div class="col col-md-4 text-center">
+            <div>
+                <h2>Madhex</h2>
+            </div>
+            <div>
+                <a href="{% url 'madhex-play' %}"><img width="120" height="120"></a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endif %}
 {% endblock %}
