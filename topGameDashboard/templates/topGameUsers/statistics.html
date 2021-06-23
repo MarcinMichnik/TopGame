@@ -7,61 +7,34 @@
     </div>
 </div>
 
-<script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    let userManas = {{ manas | safe }};
+    let userManas = {{ user_manas | safe }};
     console.log(userManas);
-
-    let userManaKeys = Object.keys(userManas);
-    console.log(userManas);
-
-    let manaPowers = [];
-
-    let manaDates = [];
-
-    for (const userMana of userManaKeys) {
-        console.log(userMana);
-        manaPowers.push(userManas[userMana]["power"]);
-        let dd = JSON.parse(userManas[userMana]["date"]);
-
-        let dateObject = new Date(dd);
-
-        manaDates.push(dateObject.toLocaleString("en-US"));
-    }
-    console.log(manaPowers);
-
-    console.log(manaDates);
 
     new Chart(document.getElementById("chart"), {
         type: 'line',
         data: {
-            labels: manaDates,
             datasets: [{
-                label: "Power",
-                backgroundColor: "rgb(91, 223, 91)",
-                data: manaPowers
+                label: "Mana",
+                data: userManas,
+                backgroundColor: "#007bff",
+                borderColor: "#ccccff"
             }]
         },
         options: {
-            scales: {
-                x: {
-                    type: 'time'
-                },
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            },
             legend: {
                 display: true
             },
-            title: {
+            plugins: {
+                title: {
                 display: true,
-                text: 'Mana flow'
-            }
+                text: 'Mana flow overtime'
+                }
+            },
+
+
         }
     });
 </script>

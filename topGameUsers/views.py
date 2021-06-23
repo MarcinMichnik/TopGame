@@ -20,6 +20,7 @@ from .forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 from .models import Mana
 from json import dumps
+from django.db.models import Avg, Count, Min, Sum
 
 def register(request):
     if request.method == 'GET':
@@ -59,17 +60,31 @@ class UserStatistics(TemplateView):
     template_name = 'topGameUsers/statistics.html'
     
     def get(self, request, *args, **kwargs):
-        context = {}
-        mana_records = {}
-        manas = Mana.objects.filter(belongs_to=request.user)
-        for mana in manas:
-            mana_records[str(mana) + ' ' + str(mana.date_of_assignment)] = {'date':dumps(mana.date_of_assignment, default=str)
-                                                                            ,'power':mana.power}
+        
+        def getUserManaRecords(self, request):
+            result = []
+            timezone_index = timezone.now() + timedelta(days=-11)
+            for i in range(11):
+                timezone_index += timedelta(days=1)
+                manas = Mana.objects.filter(belongs_to=request.user, date_of_assignment__lte=timezone_index)
+                
+                x_value = str(timezone_index.date())
+                y_value = manas.aggregate(power_sum=Sum('power'))['power_sum']
+                
+                if y_value is None:
+                    y_value = 0
+                
+                result.append({'x':x_value, 'y':y_value}) 
+                
+            return result
             
         
+        user_manas = getUserManaRecords(self, request)
         
-        context['manas'] = mana_records
+        context = {}
+        context['user_manas'] = user_manas
         
         #import pdb; pdb.set_trace()
 
         return render(request, self.template_name, context)
+    
