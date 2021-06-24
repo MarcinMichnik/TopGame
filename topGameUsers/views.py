@@ -97,3 +97,6 @@ class UserStatistics(LoginRequiredMixin, TemplateView):
         current_user_mana_sum = current_user_manas.aggregate(all_user_power_sum=Sum('power'))['all_user_power_sum']
         
         return current_user_mana_sum
+    
+class Shop(TemplateView):
+    template_name = 'topGameUsers/shop.html'

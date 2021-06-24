@@ -1,6 +1,6 @@
 from django.conf.urls import include
 from django.urls import path
-from .views import Register, Profile, UserStatistics
+from .views import Register, Profile, UserStatistics, Shop
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -9,6 +9,7 @@ urlpatterns = [
     path("profile/", Profile.as_view(), name="profile"),
     path("register/", Register.as_view(), name="register"),
     path("statistics/", UserStatistics.as_view(), name="statistics"),
+    path("shop/", Shop.as_view(), name="shop"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
