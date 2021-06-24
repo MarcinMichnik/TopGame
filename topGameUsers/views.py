@@ -6,11 +6,11 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import ValidationError   
 from datetime import timedelta, datetime
 from django.utils import timezone 
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.models import User
-from .forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm
+from .forms import CustomUserCreationForm, UserUpdateForm, ProfileUpdateForm, RuneCreationForm
 from django.contrib import messages
-from .models import Mana
+from .models import Mana, Rune
 from json import dumps
 from django.db.models import Avg, Count, Min, Sum
 
@@ -98,5 +98,43 @@ class UserStatistics(LoginRequiredMixin, TemplateView):
         
         return current_user_mana_sum
     
-class Shop(TemplateView):
+class Shop(LoginRequiredMixin, TemplateView):
+    model = Rune
     template_name = 'topGameUsers/shop.html'
+    
+    def get(self, request, *args, **kwargs):
+        rune_form = RuneCreationForm(instance=request.user)
+        runes = Rune.objects.filter(belongs_to=request.user)
+        
+        current_mana_sum = self.getCurrentUserManaSum(request)
+        
+        context = {'runes':runes, 'rune_form':rune_form, 'current_mana_sum':current_mana_sum}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        rune_form = RuneCreationForm(request.POST)
+        runes = Rune.objects.filter(belongs_to=request.user)
+        current_mana_sum = self.getCurrentUserManaSum(request)
+        context = {'runes':runes, 'rune_form':rune_form, 'current_mana_sum':current_mana_sum}
+        
+        #import pdb; pdb.set_trace()
+        
+        rune_form.instance.belongs_to = request.user
+        rune_form.instance.date_of_assignment = datetime.now()
+        if rune_form.is_valid():
+            rune_form.save()
+            
+            subtract_mana = Mana.objects.latest('date_of_assignment')
+            subtract_mana.power -= int(request.POST['power'])
+            subtract_mana.save()
+            
+            messages.success(request, f'The rune has been created successfuly.')
+            return redirect('shop')
+        
+        return render(request, self.template_name, context)
+    
+    def getCurrentUserManaSum(self, request):
+        current_user_manas = Mana.objects.filter(belongs_to=request.user)
+        current_user_mana_sum = current_user_manas.aggregate(all_user_power_sum=Sum('power'))['all_user_power_sum']
+        
+        return current_user_mana_sum
